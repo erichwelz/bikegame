@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+	<title>Gambling Bicycle</title>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/font-awesome.css" rel="stylesheet">
+</head>
+<body>
+	<div id="overlay">
+		<div id="top-wrap">
+			<h1 id="total-dist">0&nbsp;m</h1>
+			<ul id="icons-wrap">
+			</ul>
+			<h3 id="name-points">Score</h3>
+			<h1 id="total-points">0</h1>
+		</div>
+		<div class="center">
+			<div id="text-wrap">
+				<h1 id="base-text">&nbsp;</h1>
+				<h2 id="secondary-text">&nbsp;</h2>
+			</div>
+			<h1 id="velocity">0 km/h</h2>
+		</div>
+
+		<div id="distance-text">
+			<p style="float:left;">Distance</p>	
+			<p id="distance-text-left" style="float:right;">950 m</p>
+
+		</div>
+
+		<div id="progress-wrap">
+			<progress id="distance-bar" value="1" max="100"></progress>
+		</div>
+	</div>
+	<div id="vid-wrap">
+		<video id="bgvid">
+			<source src="test.mp4" type="video/mp4">
+		</video>
+	</div>
+	<script src="js/jquery.js"></script>
+	<script src="js/video.js"></script>
+</body>
