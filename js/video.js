@@ -81,11 +81,18 @@ function calcBonus (basePoints) {
 function getBikeData () {
 	var bikeData;
 	// hit the server brooo
-	$.getJSON("http://localhost:8082/", function(json){
-		bikeData = json;
+	// $.getJSON("http://localhost:8082/", function(json){
+	// 	bikeData = json;
+		       bikeData = {
+            "revolutions" : 10,
+            "frequency" : 10,
+            "distance" : 0,
+            "velocity" : 10
+        }	
 		//console.log(bikeData);
 		processData(bikeData);
-	});
+	
+	//});
 }
 
 // what to do with all that data? process it.
@@ -269,12 +276,11 @@ setInterval(everyTime, 500);
 // sets distance since browser reload
 
 
+// function resetDistance () {
+// 	$.getJSON("http://localhost:8082/", function(json){
+// 	bikeData = json;
+// 	distOffset = bikeData.distance;
+// });
+// }
 
-function resetDistance () {
-	$.getJSON("http://localhost:8082/", function(json){
-	bikeData = json;
-	distOffset = bikeData.distance;
-});
-}
-
-resetDistance();
+// resetDistance();
