@@ -1,9 +1,8 @@
 // track
 var finish = 950;
-var maxVelo = 40;
 var distOffset = 0;
 var totalPoints = 0;
-var targetVelo = 10;
+var targetVelo = 10; //velocity in m/s at which additional points are added
 
 var videos = new Array("nyc_bike.mp4", "road_bike2.mp4");
 
@@ -63,14 +62,6 @@ video.play();
 
 $( "#img-score" ).hide();
 
-/*
-// set the speed of the video while its playing
-function setSpeed () {
-    var x=document.getElementById("demo");
-    speed = Math.floor(10 * (Math.random()*3)+1)/10);
-}
-*/
-
 // calc the bonus score
 function calcBonus (basePoints) {
 	var bonus = Math.round((Math.pow(2,(1.0/(Math.random()+0.2)))/3) * basePoints);
@@ -86,8 +77,8 @@ function getBikeData () {
 		       bikeData = {
             "revolutions" : 10,
             "frequency" : 10,
-            "distance" : 0,
-            "velocity" : 10
+            "distance" : 50,
+            "velocity" : 15
         }	
 		//console.log(bikeData);
 		processData(bikeData);
@@ -198,11 +189,6 @@ function everyTime() {
 }
 
 
-
-function timer() {
-	
-}
-
 function waitingState () {
 	showText();
 	timeout = 15;
@@ -247,7 +233,6 @@ function checkFinish(dist) {
 		console.log("dist > finish");
 		resetDistance();
 		resetTrack();
-		//setTimeout(resetTrack(), 1000);
 	}
 }
 
@@ -258,7 +243,6 @@ function resetTrack () {
 	//resetDistance();
 	//resetGoals ();
 	clearUI();
-	
 }
 
 function resetGoals () {
@@ -272,15 +256,3 @@ function clearUI () {
 }
 
 setInterval(everyTime, 500);
-
-// sets distance since browser reload
-
-
-// function resetDistance () {
-// 	$.getJSON("http://localhost:8082/", function(json){
-// 	bikeData = json;
-// 	distOffset = bikeData.distance;
-// });
-// }
-
-// resetDistance();
