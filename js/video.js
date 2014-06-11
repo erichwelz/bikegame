@@ -1,11 +1,12 @@
 //refactor out reset distance
-
+//add some videos! (see if video select array is working)
 
 // track
 var finish = 950;
-var distOffset = 0;
 var totalPoints = 0;
-var targetVelo = 10; //velocity in m/s at which additional points are added
+var targetVelo = 10;
+var dist = 10;
+ //velocity in m/s at which additional points are added
 
 var videos = new Array("nyc_bike.mp4", "road_bike2.mp4");
 
@@ -72,28 +73,11 @@ function calcBonus (basePoints) {
 	return bonus;
 }
 
-function getBikeData () {
-	var bikeData;
-		      bikeData = {
-            "revolutions" : 10,
-            "distance" : 50,
-            "velocity" : 20
-        }	
-		//console.log(bikeData);
-		processData(bikeData);
-	
-	//});
-}
-
-
-// what to do with all that data? process it.
-function processData (bikeData) {
-	// $(document).ready() {
-	// 	var distoffset = bikeData.distance;
-	// }
-	revs = 4.1;
-	dist = (bikeData.distance - distOffset);
+// Here's the input data for the game!
+function processData () {
+	revs = 3 + Math.random() * 3; //faked in speed for now
 	velo = revs * 2.515; // 2.1545m is circumference of 27" wheel
+	dist += 0.5 * velo; //velo is calculated twice per second
 	writeData(dist, revs, velo);
 	updateSpeed(velo);
 	checkGoals(dist);
@@ -101,7 +85,6 @@ function processData (bikeData) {
 	updateScore();
 	checkFinish(dist);
 }
-
 
 
 function checkVelo (velo) {
@@ -244,7 +227,7 @@ function resetGoals () {
 
 // update every x milliseconds
 function everyTime() {
-    getBikeData();
+    processData();
 	// change the video speed
 }
 
