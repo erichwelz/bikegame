@@ -1,3 +1,6 @@
+//refactor out reset distance
+
+
 // track
 var finish = 950;
 var distOffset = 0;
@@ -71,14 +74,10 @@ function calcBonus (basePoints) {
 
 function getBikeData () {
 	var bikeData;
-	// hit the server brooo
-	// $.getJSON("http://localhost:8082/", function(json){
-	// 	bikeData = json;
-		       bikeData = {
+		      bikeData = {
             "revolutions" : 10,
-            "frequency" : 10,
             "distance" : 50,
-            "velocity" : 15
+            "velocity" : 20
         }	
 		//console.log(bikeData);
 		processData(bikeData);
@@ -86,25 +85,24 @@ function getBikeData () {
 	//});
 }
 
+
 // what to do with all that data? process it.
 function processData (bikeData) {
 	// $(document).ready() {
 	// 	var distoffset = bikeData.distance;
 	// }
-	revs = bikeData.revolutions;
-	freq = bikeData.frequency;
-	// meters
-	
+	revs = 4.1;
 	dist = (bikeData.distance - distOffset);
-	// meters per second
-	velo = bikeData.velocity;
-	writeData(dist, revs, freq, velo);
+	velo = revs * 2.515; // 2.1545m is circumference of 27" wheel
+	writeData(dist, revs, velo);
 	updateSpeed(velo);
 	checkGoals(dist);
 	checkVelo(velo);
 	updateScore();
 	checkFinish(dist);
 }
+
+
 
 function checkVelo (velo) {
 	if (velo > targetVelo) {
@@ -140,7 +138,7 @@ function updateSpeed(velocity) {
 } 
 
 // put it on the page brooo
-function writeData (dist, revs, freq, velo) {
+function writeData (dist, revs, velo) {
 	document.getElementById("velocity").innerHTML = Math.round(velo * 3.6 ) + " km/h";
 	document.getElementById("total-dist").innerHTML = Math.round(dist) + " m";
 	if (dist < finish ) {
@@ -180,12 +178,6 @@ function textExplode () {
 		}, 3000);
 		
   });
-}
-
-// update every x milliseconds
-function everyTime() {
-    getBikeData();
-	// change the video speed
 }
 
 
@@ -242,7 +234,6 @@ function resetTrack () {
 	waitingState();
 	//resetDistance();
 	//resetGoals ();
-	clearUI();
 }
 
 function resetGoals () {
@@ -251,8 +242,10 @@ function resetGoals () {
 	}
 }
 
-function clearUI () {
-
+// update every x milliseconds
+function everyTime() {
+    getBikeData();
+	// change the video speed
 }
 
 setInterval(everyTime, 500);
