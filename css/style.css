@@ -75,15 +75,19 @@ h1, h2, h3, h4, p {
     padding: 0;
 }
 
-#distance-text{
+#distance-text-left{
     position: fixed;
     bottom: 30px;
-    margin-left: 10px;
+    left: 1em;
     font-size: 20px;
 }
 
-#distance-text-left{
-    margin-left: 1050px;
+#distance-text-right{
+    position: fixed;
+    bottom: 30px;
+    right: 1em;
+    font-size: 20px;
+    /*width: 6em;*/
 }
 
 

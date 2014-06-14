@@ -76,7 +76,7 @@ function calcBonus (basePoints) {
 // Here's the input data for the game!
 function processData () {
 	revs = 3 + Math.random() * 3; //faked in speed for now
-	velo = revs * 2.515; // 2.1545m is circumference of 27" wheel
+	velo = revs * 2.515; // (m/s) 2.1545m is circumference of 27" wheel
 	dist += 0.5 * velo; //velo is calculated twice per second
 	writeData(dist, revs, velo);
 	updateSpeed(velo);
@@ -85,7 +85,8 @@ function processData () {
 	updateScore();
 	checkFinish(dist);
 }
-
+//sets how often input state is checked
+setInterval(processData, 500);
 
 function checkVelo (velo) {
 	if (velo > targetVelo) {
@@ -203,7 +204,7 @@ function resetVideo () {
 
 //
 function checkFinish(dist) {
-	console.log("dist:" + dist + ". finish: " + finish);
+	//console.log("dist:" + dist + ". finish: " + finish);
 	if (dist > finish) {
 		console.log("dist > finish");
 		resetDistance();
@@ -224,11 +225,3 @@ function resetGoals () {
 		goals[i].used = false;
 	}
 }
-
-// update every x milliseconds
-function everyTime() {
-    processData();
-	// change the video speed
-}
-
-setInterval(everyTime, 500);
