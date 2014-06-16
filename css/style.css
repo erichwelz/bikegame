@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'AnarchyScore';
-  src: url('fonts/captureit.eot'); /* IE9 Compat Modes */
-  src: url('fonts/captureit.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('fonts/captureit.woff') format('woff'), /* Modern Browsers */
-       url('fonts/captureit.ttf')  format('truetype'); /* Safari, Android, iOS */
+  src: url('../fonts/captureit.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/captureit.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/captureit.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/captureit.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 
 body {
@@ -79,14 +79,14 @@ h1, h2, h3, h4, p {
     position: fixed;
     bottom: 30px;
     left: 1em;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 #distance-text-right{
     position: fixed;
     bottom: 30px;
     right: 1em;
-    font-size: 20px;
+    font-size: 24px;
     /*width: 6em;*/
 }
 

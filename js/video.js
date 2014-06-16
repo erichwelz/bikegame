@@ -1,15 +1,14 @@
-//refactor out reset distance
-//add some videos! (see if video select array is working)
+//add some videos!
 
 // track
 var finish = 950;
 var totalPoints = 0;
 var targetVelo = 10;
-var dist = 10;
+var dist = 0;
+
+var videos = new Array("road_bike.mp4", "test.mp4");
+
  //velocity in m/s at which additional points are added
-
-var videos = new Array("nyc_bike.mp4", "road_bike2.mp4");
-
 var goal1 = {
 	atDist:100,
 	points:true,
@@ -224,4 +223,8 @@ function resetGoals () {
 	for (var i = 0 ;i < goals.length; i++) {
 		goals[i].used = false;
 	}
+}
+
+function resetDistance() {
+	dist = 0;
 }
