@@ -13,11 +13,8 @@ body {
 }
 
 video#bgvid {
-    position: fixed; right: 0; bottom: 0;
-    min-width: 100%; min-height: 100%;
-    max-height: 100%;
-    width: auto; height: auto; z-index: -100;
-    background-size: cover;
+    min-width: 100%; max-height: 100%;
+    z-index: -100;
 }
 
 #overlay {
@@ -97,7 +94,7 @@ h1, h2, h3, h4, p {
   background: none !important;
   height: 30px;
   width: 98%;
-  margin-left: 10px;
+  margin-left: 1%;
   border: 1px solid #fff;
 }
 

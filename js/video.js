@@ -6,7 +6,7 @@ var totalPoints = 0;
 var targetVelo = 10;
 var dist = 0;
 
-var videos = new Array("road_bike.mp4", "test.mp4");
+var videos = new Array("road_bike_480.mp4", "test_480.mp4");
 
  //velocity in m/s at which additional points are added
 var goal1 = {
@@ -132,7 +132,6 @@ function writeData (dist, revs, velo) {
 	document.getElementById("progress-wrap").innerHTML = "<progress id=\"distance-bar\" value=\"" + progress + "\" max=\"100\"></progress>";
 }
 
-// html for text explode
 function updateText (primary, secondary) {
 	console.log("update text");
 	document.getElementById("base-text").innerHTML = primary;
