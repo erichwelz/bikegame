@@ -10,9 +10,6 @@ body {
     background: #000;
 }
 
-
-
-
 #bgvid {
     min-width: 100%;
     max-width: 100%;
@@ -71,16 +68,16 @@ h1, h2, h3, h4, p {
 
 #distance-text-left{
     position: fixed;
-    bottom: 30px;
+    bottom: 0.5em;
     left: 1em;
-    font-size: 24px;
+    font-size: 2em;
 }
 
 #distance-text-right{
     position: fixed;
-    bottom: 30px;
+    bottom: 0.5em;
     right: 1em;
-    font-size: 24px;
+    font-size: 2em;
 }
 
 #distance-bar{
@@ -96,21 +93,6 @@ h1, h2, h3, h4, p {
     position: absolute;
     top: 0;
     width: 100%;
-}
-
-ul#icons-wrap {
-    position: absolute;
-    list-style: none;
-    display: inline-block;
-    margin-top: 3em;
-    left: 37%;
-}
-
-ul#icons-wrap li {
-    color: #fff;
-    display: inline-block;
-    font-size: 3em;
-    margin-left: 0.2em;
 }
  
 progress[value]::-webkit-progress-value {
