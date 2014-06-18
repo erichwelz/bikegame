@@ -1,0 +1,8 @@
+Get video block centered:
+
+Ideas from http://css-tricks.com/centering-in-the-unknown/
+
+Add query to detect mobile, load mobile res video
+
+Troubleshoot why video stops playing at times
+
