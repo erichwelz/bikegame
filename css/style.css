@@ -7,14 +7,18 @@
 }
 
 body {
-    //background: url(../images/grunge_bg.jpg);
     background: #000;
-    //opacity: 0.05;
 }
 
-video#bgvid {
-    min-width: 100%; max-height: 100%;
+
+
+
+#bgvid {
+    min-width: 100%;
+    max-width: 100%;
+    max-height: 100%;
     z-index: -100;
+    margin: auto;
 }
 
 #overlay {
@@ -22,13 +26,10 @@ video#bgvid {
     right: 0;
     bottom: 0;
     min-width: 100%;
-    min-height: 100%;
     max-width: 100%;
+    min-height: 100%;
     width: auto;
     height: auto;
-    //background: url(../images/grunge_bg.jpg);
-    //opacity: 0.2;
-    //background: rgba(0,0,0,0.7);
 }
 
 #overlay .center {
@@ -40,11 +41,8 @@ video#bgvid {
 #overlay .center h1 {
     color: #fff;
     font-size: 3.5em;
-    //position: absolute;
     margin: 0 auto;
     margin-top: 50px;
-    //left: 40%;
-    //bottom: 25%;
 }
 
 
@@ -57,7 +55,6 @@ h1, h2, h3, h4, p {
 #total-dist {
     margin-left: 1em;
     font-size: 4em;
-    //float: right;
     margin-right: 1em;
     float: left;
 }
@@ -84,14 +81,11 @@ h1, h2, h3, h4, p {
     bottom: 30px;
     right: 1em;
     font-size: 24px;
-    /*width: 6em;*/
 }
-
 
 #distance-bar{
   position: fixed;
   bottom: 12px;
-  background: none !important;
   height: 30px;
   width: 98%;
   margin-left: 1%;
@@ -129,11 +123,8 @@ progress[value]::-webkit-progress-value {
     position: absolute;
     right: 100px;
     top: 0;
-    //float:right;
     margin: 0;
-    //margin-right: 3em;
     margin-top: 1.3em;
-    //margin-bottom: 0;
     font-size: 3em;
 }
 #name-points {
@@ -141,9 +132,6 @@ progress[value]::-webkit-progress-value {
     right: 100px;
     top: 0;
     display: block;
-    //float:right;
     margin: 0;
     margin-top: 2.7em;
-    //margin-right: 4em;
-    //margin-bottom: 0;
 }
