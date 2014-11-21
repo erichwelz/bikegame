@@ -3,6 +3,7 @@ var finish = 950;
 var totalPoints = 0;
 var targetVelo = 10;
 var dist = 0;
+var timeoutinProgress = false;
 
 var videos = new Array("road_bike_480.mp4", "test_480.mp4");
 
@@ -12,7 +13,6 @@ var goal1 = {
 	points:true,
 	addPoints: 100,
 	baseText:"+100 Points",
-	secondaryText:"+121 Bonus",
 	used: false
 };
 var goal2 = {
@@ -20,7 +20,6 @@ var goal2 = {
 	points:true,
 	addPoints: 200,
 	baseText:"+200 Points",
-	secondaryText:"+122 Bonus",
 	used: false
 };
 var goal3 = {
@@ -28,7 +27,6 @@ var goal3 = {
 	points:true,
 	addPoints: 500,
 	baseText:"+500 Points",
-	secondaryText:"+123 Bonus",
 	used: false
 };
 var goal4 = {
@@ -36,7 +34,6 @@ var goal4 = {
 	points:true,
 	addPoints: 750,
 	baseText:"+750 Points",
-	secondaryText:"+123 Bonus",
 	used: false
 };
 var goal5 = {
@@ -44,7 +41,6 @@ var goal5 = {
 	points:true,
 	addPoints: 1000,
 	baseText:"+1000 Points",
-	secondaryText:"+123 Bonus",
 	used: false
 };
 
@@ -63,15 +59,19 @@ function calcBonus (basePoints) {
 
 // Here's the input data for the game!
 function processData () {
-	revs = 3 + Math.random() * 3; //faked in speed for now
+	if (timeoutinProgress == false){
+	revs = 3.5 + Math.random() * 2; //faked in speed for now
 	velo = revs * 2.515; // (m/s) 2.1545m is circumference of 27" wheel
 	dist += 0.5 * velo; //velo is calculated twice per second
-	writeData(dist, revs, velo);
-	updateSpeed(velo);
-	checkGoals(dist);
 	checkVelo(velo);
 	updateScore();
+	checkGoals(dist);
 	checkFinish(dist);
+	} else {
+	velo = 0;
+	};
+	writeData(dist, revs, velo);
+	updateSpeed(velo);
 }
 //sets how often input state is checked
 setInterval(processData, 500);
@@ -150,25 +150,22 @@ function textExplode () {
 }
 
 function waitingState () {
+	timeoutinProgress = true;
 	showText();
 	timeout = 15;
-	var timeoutinProgress = true;
 	console.log('waiting state');
 	var counter = setInterval(function(){
-	//setInterval(function(){
 
 		updateText("Time Until Next Heat", timeout + " seconds");
 		showText();
-		console.log(timeout);
 
 		if (timeout <= 0 && timeoutinProgress == true){
-			// done
 			hideText();
 			resetDistance();
 			resetGoals();
 			timeoutinProgress = false;
-		  	clearInterval(counter);
-		  	selectVideo();
+		  clearInterval(counter);
+		  selectVideo();
 		}
 	timeout -= 1;
 
@@ -186,10 +183,8 @@ function selectVideo () {
 
 //
 function checkFinish(dist) {
-	//console.log("dist:" + dist + ". finish: " + finish);
-	if (dist > finish) {
+	if (dist > finish && timeoutinProgress == false) {
 		console.log("dist > finish");
-		resetDistance();
 		resetTrack();
 	}
 }
