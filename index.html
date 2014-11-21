@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <head>
-	<title>Gambling Bicycle</title>
+	<title>Bike Game Demo</title>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
 	<div id="overlay">
-		
+
 		<div id="top-wrap">
 			<h1 id="total-dist">0 m</h1>
 			<h3 id="name-points">Score</h3>
@@ -21,7 +21,7 @@
 		</div>
 
 		<div id="distance-text-left">
-			<p>Distance</p>	
+			<p>Distance</p>
 		</div>
 
 		<div id="distance-text-right">
@@ -32,9 +32,12 @@
 			<progress id="distance-bar" value="1" max="100"></progress>
 		</div>
 	</div>
-	 <video id="bgvid">
-      <source src="media/test_480.mp4" type="video/mp4">
+		<div id="vid-wrap">
+		 <video id="bgvid">
+    	 <source src="media/test_480.mp4" type="video/mp4">
     </video>
+  </div>
+
 	<script src="js/jquery.js"></script>
 	<script src="js/video.js"></script>
 </body>

@@ -1,5 +1,3 @@
-//add some videos!
-
 // track
 var finish = 950;
 var totalPoints = 0;
@@ -50,18 +48,9 @@ var goal5 = {
 	used: false
 };
 
-var goals = new Array(goal1,goal2,goal3);
+var goals = new Array(goal1,goal2,goal3,goal4,goal5);
 
-console.log(goals);
-
-// set speed
-var speed = 1.0;
-// get data how often
-
-// video variable
-video = document.getElementById("bgvid");
-// play it broooo when page loaded
-video.play();
+selectVideo();
 
 $( "#img-score" ).hide();
 
@@ -100,7 +89,7 @@ function updateScore(){
 function checkGoals(dist) {
 	for (var i = 0 ;i < goals.length; i++) {
 		if (dist > goals[i].atDist && goals[i].used == false) {
-			
+
 			textExplode();
 			totalPoints += goals[i].addPoints;
 			var bonus = calcBonus(goals[i].addPoints);
@@ -116,9 +105,9 @@ function updateSpeed(velocity) {
 	} else {
 		var speed = 0;
 	}
-	
+
 	video.playbackRate = speed;
-} 
+}
 
 // put it on the page brooo
 function writeData (dist, revs, velo) {
@@ -133,13 +122,11 @@ function writeData (dist, revs, velo) {
 }
 
 function updateText (primary, secondary) {
-	console.log("update text");
 	document.getElementById("base-text").innerHTML = primary;
 	document.getElementById("secondary-text").innerHTML = secondary;
 }
 
 function showText () {
-	console.log("show text");
 	$("#text-wrap").show();
 	$("#base-text").show();
 	$("#secondary-text").show();
@@ -158,10 +145,9 @@ function textExplode () {
 		setTimeout(function () {
 			$( "#text-wrap" ).toggle( "explode");
 		}, 3000);
-		
+
   });
 }
-
 
 function waitingState () {
 	showText();
@@ -170,31 +156,29 @@ function waitingState () {
 	console.log('waiting state');
 	var counter = setInterval(function(){
 	//setInterval(function(){
-		
+
 		updateText("Time Until Next Heat", timeout + " seconds");
 		showText();
 		console.log(timeout);
 
-		if (timeout <= 0 && timeoutinProgress == true){ 
-			// done	
+		if (timeout <= 0 && timeoutinProgress == true){
+			// done
 			hideText();
 			resetDistance();
 			resetGoals();
-			timeoutinProgress = false;	
+			timeoutinProgress = false;
 		  	clearInterval(counter);
-		  	resetVideo();
+		  	selectVideo();
 		}
 	timeout -= 1;
-
 
 	}, 1000);
 }
 
-function resetVideo () {
+function selectVideo () {
 	//selects a video from the array
-	console.log('reset video function');
 	var newVideo = videos[Math.floor(Math.random()*videos.length)];
-	console.log(newVideo);
+	console.log("Selected Video: " + newVideo);
 	document.getElementById("vid-wrap").innerHTML = "<video id=\"bgvid\"><source src=\"media/" + newVideo + "\" type=\"video/mp4\"></video>";
 	video = document.getElementById("bgvid");
 	video.play();
@@ -214,8 +198,6 @@ function checkFinish(dist) {
 function resetTrack () {
 	console.log("reset track");
 	waitingState();
-	//resetDistance();
-	//resetGoals ();
 }
 
 function resetGoals () {
