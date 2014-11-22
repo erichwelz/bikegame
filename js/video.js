@@ -1,13 +1,11 @@
 // track
+var dist = 0;
 var finish = 950;
 var totalPoints = 0;
 var targetVelo = 10;
-var dist = 0;
 var timeoutinProgress = false;
 
-var videos = new Array("road_bike_480.mp4", "test_480.mp4");
-
- //velocity in m/s at which additional points are added
+ //distance in m at which additional points are added
 var goal1 = {
 	atDist:100,
 	points:true,
@@ -43,12 +41,18 @@ var goal5 = {
 	baseText:"+1000 Points",
 	used: false
 };
-
 var goals = new Array(goal1,goal2,goal3,goal4,goal5);
 
+//select starting video
+var videos = new Array("road_bike_480.mp4", "test_480.mp4");
 selectVideo();
 
-$( "#img-score" ).hide();
+//bonus points if speed is above targetvelo threshold
+function checkVelo (velo) {
+	if (velo > targetVelo) {
+		totalPoints += Math.round(targetVelo / 3);
+	}
+}
 
 // calc the bonus score
 function calcBonus (basePoints) {
@@ -57,7 +61,7 @@ function calcBonus (basePoints) {
 	return bonus;
 }
 
-// Here's the input data for the game!
+// Input data for the game!
 function processData () {
 	if (timeoutinProgress == false){
 	revs = 3.5 + Math.random() * 2; //faked in speed for now
@@ -76,11 +80,6 @@ function processData () {
 //sets how often input state is checked
 setInterval(processData, 500);
 
-function checkVelo (velo) {
-	if (velo > targetVelo) {
-		totalPoints = Math.round(totalPoints + (targetVelo / 3));
-	}
-}
 
 function updateScore(){
 	document.getElementById("total-points").innerHTML = totalPoints;
@@ -105,11 +104,9 @@ function updateSpeed(velocity) {
 	} else {
 		var speed = 0;
 	}
-
 	video.playbackRate = speed;
 }
 
-// put it on the page brooo
 function writeData (dist, revs, velo) {
 	document.getElementById("velocity").innerHTML = Math.round(velo * 3.6 ) + " km/h";
 	document.getElementById("total-dist").innerHTML = Math.round(dist) + " m";
@@ -133,7 +130,6 @@ function showText () {
 }
 
 function hideText() {
-	console.log("hide text");
 	$("#base-text").hide();
 	$("#secondary-text").hide();
 }
