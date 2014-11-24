@@ -212,7 +212,7 @@ document.onkeydown = function (e) {
             (revs > 1.2) ? revs -= 0.3 : revs;
             break;
         case 38: //up
-            (revs < 10) ? revs += 0.3 : revs;vs)
+            (revs < 10) ? revs += 0.3 : revs;
             break;
         case 39: //right
             (revs < 10) ? revs += 0.3 : revs;
