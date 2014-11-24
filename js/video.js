@@ -4,6 +4,7 @@ var finish = 950;
 var totalPoints = 0;
 var targetVelo = 10;
 var timeoutinProgress = false;
+var revs = undefined;
 
  //distance in m at which additional points are added
 var goal1 = {
@@ -64,8 +65,10 @@ function calcBonus (basePoints) {
 // Input data for the game!
 function processData () {
 	if (timeoutinProgress == false){
-	revs = 3.5 + Math.random() * 2; //faked in speed for now
-	velo = revs * 2.515; // (m/s) 2.1545m is circumference of 27" wheel
+	if (typeof revs === 'undefined'){
+			revs = 3.5 + Math.random() * 2;
+	} //faked in speed for now
+	velo = revs * 2.515 * (8 + Math.random() * 2)/10 ; // (m/s) 2.1545m is circumference of 27" wheel
 	dist += 0.5 * velo; //velo is calculated twice per second
 	checkVelo(velo);
 	updateScore();
@@ -148,21 +151,21 @@ function textExplode () {
 function waitingState () {
 	timeoutinProgress = true;
 	showText();
-	timeout = 15;
+	timeout = 10;
 	console.log('waiting state');
 	var counter = setInterval(function(){
-
 		updateText("Time Until Next Heat", timeout + " seconds");
 		showText();
 
-		if (timeout <= 0 && timeoutinProgress == true){
-			hideText();
-			resetDistance();
-			resetGoals();
-			timeoutinProgress = false;
-		  clearInterval(counter);
-		  selectVideo();
-		}
+			if (timeout <= 0 && timeoutinProgress == true){
+				hideText();
+				resetDistance();
+				resetGoals();
+				revs = 4;
+				timeoutinProgress = false;
+			  clearInterval(counter);
+			  selectVideo();
+			}
 	timeout -= 1;
 
 	}, 1000);
@@ -200,3 +203,22 @@ function resetGoals () {
 function resetDistance() {
 	dist = 0;
 }
+
+//adjust gameplay speed with key strokes
+
+document.onkeydown = function (e) {
+    switch (e.keyCode) {
+        case 37: //left
+            (revs > 1.2) ? revs -= 0.3 : revs;
+            break;
+        case 38: //up
+            (revs < 10) ? revs += 0.3 : revs;vs)
+            break;
+        case 39: //right
+            (revs < 10) ? revs += 0.3 : revs;
+            break;
+        case 40: //down
+            (revs > 1.2) ? revs -= 0.3 : revs;
+            break;
+    }
+};
