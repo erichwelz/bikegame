@@ -45,7 +45,7 @@ var goal5 = {
 var goals = new Array(goal1,goal2,goal3,goal4,goal5);
 
 //select starting video
-var videos = new Array("road_bike_480.mp4", "test_480.mp4");
+var videos = new Array("road_bike_480.mp4", "test_480.mp4", "mountain_2_480.mp4");
 selectVideo();
 
 //bonus points if speed is above targetvelo threshold
