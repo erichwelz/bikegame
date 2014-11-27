@@ -131,8 +131,8 @@
 		} else {
 			progress = 100;
 		}
-		document.getElementById("progress-wrap").innerHTML = "<progress id=\"distance-bar\" value=\""
-														+ progress + "\" max=\"100\"></progress>";
+		document.getElementById("progress-wrap").innerHTML = "<progress id=\"distance-bar\" value=\"" +
+														progress + "\" max=\"100\"></progress>";
 	}
 
 	// Input data for the game!
