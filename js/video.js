@@ -1,10 +1,14 @@
+//(function ($) {
+//  'use strict';
+
 // track
 var dist = 0;
 var finish = 950;
 var totalPoints = 0;
 var targetVelocity = 10;
 var timeoutinProgress = false;
-var revs = undefined;
+var revs;
+var velocity;
 var video;
 
  //distance in m at which additional points are added
@@ -47,11 +51,11 @@ var goals = [goal1,goal2,goal3,goal4,goal5];
 
 //select starting video
 var videos = ["road_bike_480.mp4", "test_480.mp4", "mountain_2_480.mp4"];
-selectVideo();
+
 
 //bonus points if speed is above targetVelocity threshold
-function checkVelo (currentVelocity) {
-	if (currentVelocity > targetVelocity) {
+function checkVelo() {
+	if (velocity > targetVelocity) {
 		totalPoints += Math.round(targetVelocity / 3);
 	}
 }
@@ -63,66 +67,6 @@ function calcBonus (basePoints) {
 	return bonus;
 }
 
-// Input data for the game!
-function processData() {
-	if (timeoutinProgress == false){
-		if (typeof revs === 'undefined'){
-				revs = 3.5 + Math.random() * 2;
-		} //faked in speed for now
-		velo = revs * 2.515 * (8 + Math.random() * 2)/10 ; // (m/s) 2.1545m is circumference of 27" wheel
-		dist += 0.5 * velo; //velo is calculated twice per second
-		checkVelo(velo);
-		checkGoals(dist);
-		checkFinish(dist);
-	} else {
-		velo = 0;
-	};
-	writeData();
-	updateSpeed(velo);
-}
-//sets how often input state is checked
-setInterval(processData, 500);
-
-function checkGoals(dist) {
-	for (var i = 0 ;i < goals.length; i++) {
-		if (dist > goals[i].atDist && goals[i].used == false) {
-
-			textExplode();
-			totalPoints += goals[i].addPoints;
-			var bonus = calcBonus(goals[i].addPoints);
-			updateText(goals[i].baseText, "+" + bonus + " Bonus");
-			goals[i].used = true;
-		}
-	};
-}
-
-function updateSpeed(velocity) {
-	if (velocity > 1) {
-		var speed = (velocity * 1) / 10.0;
-	} else {
-		var speed = 0;
-	}
-	video.playbackRate = speed;
-}
-
-function writeData() {
-	document.getElementById("total-points").innerHTML = totalPoints;
-	document.getElementById("velocity").innerHTML = Math.round(velo * 3.6) + " km/h";
-	document.getElementById("total-dist").innerHTML = Math.round(dist) + " m";
-	if (dist < finish) {
-		var progress = Math.round((dist / finish) * 1000)/10;
-	} else {
-		var progress = 100;
-	}
-	document.getElementById("progress-wrap").innerHTML = "<progress id=\"distance-bar\" value=\""
-													+ progress + "\" max=\"100\"></progress>";
-}
-
-function updateText(primary, secondary) {
-	document.getElementById("base-text").innerHTML = primary;
-	document.getElementById("secondary-text").innerHTML = secondary;
-}
-
 function showText() {
 	$("#text-wrap").show();
 	$("#base-text").show();
@@ -130,6 +74,7 @@ function showText() {
 }
 
 function hideText() {
+	$("#text-wrap").hide();
 	$("#base-text").hide();
 	$("#secondary-text").hide();
 }
@@ -137,36 +82,78 @@ function hideText() {
 // animation for text
 function textExplode() {
 	$( "#text-wrap" ).hide();
-	$( "#text-wrap" ).toggle( "explode", function() {
+	$( "#text-wrap" ).show( "explode", function() {
 		setTimeout(function () {
-			$( "#text-wrap" ).toggle( "explode");
+			$( "#text-wrap" ).hide( "explode");
 		}, 3000);
 
   });
 }
 
-function waitingState() {
-	timeoutinProgress = true;
-	showText();
-	timeout = 10;
-	console.log('waiting state');
-	var counter = setInterval(function(){
-		updateText("Time Until Next Heat", timeout + " seconds");
-		showText();
 
-			if (timeout <= 0 && timeoutinProgress == true){
-				hideText();
-				resetDistance();
-				resetGoals();
-				revs = 4;
-				timeoutinProgress = false;
-			  clearInterval(counter);
-			  selectVideo();
-			}
-	timeout -= 1;
-
-	}, 1000);
+function updateSpeed() {
+	var speed;
+	if (velocity > 1) {
+		speed = velocity / 10.0;
+	} else {
+		speed = 0;
+	}
+	video.playbackRate = speed;
 }
+
+function checkGoals() {
+	var i;
+	var bonus;
+	for (i = 0; i < goals.length; i++) {
+		if (dist > goals[i].atDist && goals[i].used === false) {
+			showText();
+			textExplode();
+			totalPoints += goals[i].addPoints;
+			bonus = calcBonus(goals[i].addPoints);
+			updateText(goals[i].baseText, "+" + bonus + " Bonus");
+			goals[i].used = true;
+		}
+	}
+}
+
+function updateText(primary, secondary) {
+	document.getElementById("base-text").innerHTML = primary;
+	document.getElementById("secondary-text").innerHTML = secondary;
+}
+
+function writeData() {
+	var progress;
+	document.getElementById("total-points").innerHTML = totalPoints;
+	document.getElementById("velocity").innerHTML = Math.round(velocity * 3.6) + " km/h";
+	document.getElementById("total-dist").innerHTML = Math.round(dist) + " m";
+	if (dist < finish) {
+		progress = Math.round((dist / finish) * 1000)/10;
+	} else {
+		progress = 100;
+	}
+	document.getElementById("progress-wrap").innerHTML = "<progress id=\"distance-bar\" value=\""
+													+ progress + "\" max=\"100\"></progress>";
+}
+
+// Input data for the game!
+function processData() {
+	if (timeoutinProgress === false){
+		if (revs === undefined){
+				revs = 3.5 + Math.random() * 2;
+		} //faked in speed for now
+		velocity = revs * 2.515 * (8 + Math.random() * 2)/10 ; // (m/s) 2.1545m is circumference of 27" wheel
+		dist += 0.5 * velocity; //velo is calculated twice per second
+		checkVelo();
+		checkGoals();
+		checkFinish();
+	} else {
+		velocity = 0;
+	}
+	writeData();
+	updateSpeed();
+}
+
+
 
 function selectVideo() {
 	//selects a video from the array
@@ -177,22 +164,22 @@ function selectVideo() {
 	video.play();
 }
 
-//
-function checkFinish(dist) {
-	if (dist > finish && timeoutinProgress == false) {
+function checkFinish() {
+	if (dist > finish && timeoutinProgress === false) {
 		console.log("dist > finish");
 		resetTrack();
 	}
 }
 
 // sets game for next heat
-function resetTrack () {
+function resetTrack() {
 	console.log("reset track");
 	waitingState();
 }
 
 function resetGoals() {
-	for (var i = 0 ;i < goals.length; i++) {
+	var i;
+	for (i = 0; i < goals.length; i++) {
 		goals[i].used = false;
 	}
 }
@@ -219,3 +206,33 @@ document.onkeydown = function (e) {
             break;
     }
 };
+
+function waitingState() {
+	var timeout = 10;
+	timeoutinProgress = true;
+	showText();
+	console.log('waiting state');
+	var counter = setInterval(function(){
+		updateText("Time Until Next Heat", timeout + " seconds");
+		showText();
+
+			if (timeout <= 0 && timeoutinProgress === true){
+				hideText();
+				resetDistance();
+				resetGoals();
+				revs = 4;
+				timeoutinProgress = false;
+			  clearInterval(counter);
+			  selectVideo();
+			}
+	timeout -= 1;
+
+	}, 1000);
+}
+
+
+selectVideo();
+//sets how often input state is checked
+setInterval(processData, 500);
+
+//})(jQuery);
