@@ -2,9 +2,10 @@
 var dist = 0;
 var finish = 950;
 var totalPoints = 0;
-var targetVelo = 10;
+var targetVelocity = 10;
 var timeoutinProgress = false;
 var revs = undefined;
+var video;
 
  //distance in m at which additional points are added
 var goal1 = {
@@ -42,16 +43,16 @@ var goal5 = {
 	baseText:"+1000 Points",
 	used: false
 };
-var goals = new Array(goal1,goal2,goal3,goal4,goal5);
+var goals = [goal1,goal2,goal3,goal4,goal5];
 
 //select starting video
-var videos = new Array("road_bike_480.mp4", "test_480.mp4", "mountain_2_480.mp4");
+var videos = ["road_bike_480.mp4", "test_480.mp4", "mountain_2_480.mp4"];
 selectVideo();
 
-//bonus points if speed is above targetvelo threshold
-function checkVelo (velo) {
-	if (velo > targetVelo) {
-		totalPoints += Math.round(targetVelo / 3);
+//bonus points if speed is above targetVelocity threshold
+function checkVelo (currentVelocity) {
+	if (currentVelocity > targetVelocity) {
+		totalPoints += Math.round(targetVelocity / 3);
 	}
 }
 
@@ -63,30 +64,24 @@ function calcBonus (basePoints) {
 }
 
 // Input data for the game!
-function processData () {
+function processData() {
 	if (timeoutinProgress == false){
-	if (typeof revs === 'undefined'){
-			revs = 3.5 + Math.random() * 2;
-	} //faked in speed for now
-	velo = revs * 2.515 * (8 + Math.random() * 2)/10 ; // (m/s) 2.1545m is circumference of 27" wheel
-	dist += 0.5 * velo; //velo is calculated twice per second
-	checkVelo(velo);
-	updateScore();
-	checkGoals(dist);
-	checkFinish(dist);
+		if (typeof revs === 'undefined'){
+				revs = 3.5 + Math.random() * 2;
+		} //faked in speed for now
+		velo = revs * 2.515 * (8 + Math.random() * 2)/10 ; // (m/s) 2.1545m is circumference of 27" wheel
+		dist += 0.5 * velo; //velo is calculated twice per second
+		checkVelo(velo);
+		checkGoals(dist);
+		checkFinish(dist);
 	} else {
-	velo = 0;
+		velo = 0;
 	};
-	writeData(dist, revs, velo);
+	writeData();
 	updateSpeed(velo);
 }
 //sets how often input state is checked
 setInterval(processData, 500);
-
-
-function updateScore(){
-	document.getElementById("total-points").innerHTML = totalPoints;
-}
 
 function checkGoals(dist) {
 	for (var i = 0 ;i < goals.length; i++) {
@@ -110,23 +105,25 @@ function updateSpeed(velocity) {
 	video.playbackRate = speed;
 }
 
-function writeData (dist, revs, velo) {
-	document.getElementById("velocity").innerHTML = Math.round(velo * 3.6 ) + " km/h";
+function writeData() {
+	document.getElementById("total-points").innerHTML = totalPoints;
+	document.getElementById("velocity").innerHTML = Math.round(velo * 3.6) + " km/h";
 	document.getElementById("total-dist").innerHTML = Math.round(dist) + " m";
-	if (dist < finish ) {
+	if (dist < finish) {
 		var progress = Math.round((dist / finish) * 1000)/10;
 	} else {
 		var progress = 100;
 	}
-	document.getElementById("progress-wrap").innerHTML = "<progress id=\"distance-bar\" value=\"" + progress + "\" max=\"100\"></progress>";
+	document.getElementById("progress-wrap").innerHTML = "<progress id=\"distance-bar\" value=\""
+													+ progress + "\" max=\"100\"></progress>";
 }
 
-function updateText (primary, secondary) {
+function updateText(primary, secondary) {
 	document.getElementById("base-text").innerHTML = primary;
 	document.getElementById("secondary-text").innerHTML = secondary;
 }
 
-function showText () {
+function showText() {
 	$("#text-wrap").show();
 	$("#base-text").show();
 	$("#secondary-text").show();
@@ -138,7 +135,7 @@ function hideText() {
 }
 
 // animation for text
-function textExplode () {
+function textExplode() {
 	$( "#text-wrap" ).hide();
 	$( "#text-wrap" ).toggle( "explode", function() {
 		setTimeout(function () {
@@ -148,7 +145,7 @@ function textExplode () {
   });
 }
 
-function waitingState () {
+function waitingState() {
 	timeoutinProgress = true;
 	showText();
 	timeout = 10;
@@ -171,7 +168,7 @@ function waitingState () {
 	}, 1000);
 }
 
-function selectVideo () {
+function selectVideo() {
 	//selects a video from the array
 	var newVideo = videos[Math.floor(Math.random()*videos.length)];
 	console.log("Selected Video: " + newVideo);
@@ -194,7 +191,7 @@ function resetTrack () {
 	waitingState();
 }
 
-function resetGoals () {
+function resetGoals() {
 	for (var i = 0 ;i < goals.length; i++) {
 		goals[i].used = false;
 	}
