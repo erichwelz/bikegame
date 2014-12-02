@@ -7,10 +7,10 @@
 	var totalPoints = 0;
 	var targetVelocity = 10;
 	var timeoutinProgress = false;
+	var paused = false;
 	var revs;
 	var velocity;
 	var video;
-	var paused = false;
 
 	 //distance in m at which additional points are added
 	var goal1 = {
@@ -124,14 +124,14 @@
 
 	function writeData() {
 		var progress;
+		var speedtext;
 		document.getElementById("total-points").innerHTML = totalPoints;
-		document.getElementById("velocity").innerHTML = Math.round(velocity * 3.6) + " km/h";
 		document.getElementById("total-dist").innerHTML = Math.round(dist) + " m";
-		if (dist < finish) {
-			progress = Math.round((dist / finish) * 1000)/10;
-		} else {
-			progress = 100;
-		}
+
+		!paused ? speedtext = Math.round(velocity * 3.6) + " km/h" : speedtext = "Paused";
+		document.getElementById("velocity").innerHTML = speedtext;
+
+		(dist < finish) ? progress = Math.round((dist / finish) * 1000)/10 : progress = 100;
 		document.getElementById("progress-wrap").innerHTML = "<progress id=\"distance-bar\" value=\"" +
 														progress + "\" max=\"100\"></progress>";
 	}
@@ -203,7 +203,7 @@
 	            (revs > 1.2) ? revs -= 0.3 : revs;
 	            break;
 	        case 32: //space
-	        		 paused = !paused;
+	        	  !timeoutinProgress ? paused = !paused : paused;
           break;
 	    }
 	};
@@ -217,7 +217,7 @@
 			updateText("Time Until Next Heat", timeout + " seconds");
 			showText();
 
-				if (timeout <= 0 && timeoutinProgress === true){
+				if (timeout <= 0 && timeoutinProgress){
 					hideText();
 					resetDistance();
 					resetGoals();
