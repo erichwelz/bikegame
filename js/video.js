@@ -10,6 +10,7 @@
 	var revs;
 	var velocity;
 	var video;
+	var paused = false;
 
 	 //distance in m at which additional points are added
 	var goal1 = {
@@ -137,7 +138,7 @@
 
 	// Input data for the game!
 	function processData() {
-		if (timeoutinProgress === false){
+		if (!timeoutinProgress && !paused){
 			if (revs === undefined){
 					revs = 3.5 + Math.random() * 2;
 			} //faked in speed for now
@@ -201,6 +202,9 @@
 	        case 40: //down
 	            (revs > 1.2) ? revs -= 0.3 : revs;
 	            break;
+	        case 32: //space
+	        		 paused = !paused;
+          break;
 	    }
 	};
 
